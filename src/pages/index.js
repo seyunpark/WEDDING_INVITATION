@@ -35,7 +35,7 @@ const IndexPage = () => {
     document.body.appendChild(script);
 
     return () => {
-      document.body.romoveChile(script);
+      document.body.removeChild(script);
     };
   }, []);
 
