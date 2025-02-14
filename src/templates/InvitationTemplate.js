@@ -40,8 +40,8 @@ const InvitationTemplate = ({ pageContext }) => {
 	return (
 		<Wrapper>
 			<Title invitation={invitation} />
-			{/*<Greeting message={`${invitation.name}님을 초대합니다!`} />*/}
-			{/*<Gallery />*/}
+			<Greeting invitation={invitation} />
+			<Gallery />
 			{/*<Location location={invitation.location} />*/}
 			{/*<Quote />*/}
 			{/*<CongratulatoryMoney invitation={invitation} />*/}

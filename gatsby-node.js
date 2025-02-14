@@ -24,6 +24,7 @@ exports.createPages = async ({ graphql, actions }) => {
             bride_father_account
             bride_mother_name
             bride_mother_account
+            slug
           }
         }
       }
@@ -50,7 +51,7 @@ exports.createPages = async ({ graphql, actions }) => {
 				component: path.resolve(`src/templates/InvitationTemplate.js`),
 				context: {
 					invitation: {
-						id: invite.slug,
+						id: invite.id,
 						name: invite.name,
 						date: invite.date,
 						location: invite.location,
