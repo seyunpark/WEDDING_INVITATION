@@ -1,19 +1,78 @@
 const path = require("path");
 
-exports.createPages = async ({ actions }) => {
+exports.createPages = async ({ graphql, actions }) => {
 	const { createPage } = actions;
 
-	// 예제 데이터 (실제 서비스에서는 DB 또는 JSON에서 불러올 수 있음)
-	const invitations = [
-		{ id: "abc123", name: "홍길동", date: "2025-05-01", location: "서울 강남구", message: "초대합니다!" },
-		{ id: "xyz789", name: "김영희", date: "2025-06-10", location: "부산 해운대", message: "축하해주세요!" }
-	];
+	try {
+		const result = await graphql(`
+      {
+        allMysqlInvitations {
+          nodes {
+            id
+            name
+            date
+            location
+            groom_name
+            groom_account
+            groom_father_name
+            groom_father_account
+            groom_mother_name
+            groom_mother_account
+            bride_name
+            bride_account
+            bride_father_name
+            bride_father_account
+            bride_mother_name
+            bride_mother_account
+          }
+        }
+      }
+    `);
 
-	invitations.forEach((invite) => {
-		createPage({
-			path: `/invite/${invite.id}`, // 동적 URL 생성
-			component: path.resolve(`src/templates/InvitationTemplate.js`), // 해당 경로의 컴포넌트 사용
-			context: { invitation: invite }, // 페이지에 데이터 전달
+		// 🚀 디버깅용: 데이터 확인
+		console.log("🔹 GraphQL Query Result:", JSON.stringify(result, null, 2));
+
+		if (result.errors) {
+			console.error("❌ GraphQL 쿼리 오류:", result.errors);
+			return;
+		}
+
+		const invitation = result.data.allMysqlInvitations.nodes;
+
+		if (!invitation || invitation.length === 0) {
+			console.warn("⚠️ 초대장 데이터가 없습니다. DB를 확인하세요.");
+			return;
+		}
+
+		invitation.forEach((invite) => {
+			createPage({
+				path: `/invite/${invite.slug}`,
+				component: path.resolve(`src/templates/InvitationTemplate.js`),
+				context: {
+					invitation: {
+						id: invite.slug,
+						name: invite.name,
+						date: invite.date,
+						location: invite.location,
+						groom: {
+							name: invite.groom_name,
+							account: invite.groom_account,
+							father: { name: invite.groom_father_name, account: invite.groom_father_account },
+							mother: { name: invite.groom_mother_name, account: invite.groom_mother_account },
+						},
+						bride: {
+							name: invite.bride_name,
+							account: invite.bride_account,
+							father: { name: invite.bride_father_name, account: invite.bride_father_account },
+							mother: { name: invite.bride_mother_name, account: invite.bride_mother_account },
+						},
+					},
+				},
+			});
 		});
-	});
+
+		console.log("✅ 초대장 페이지 생성 완료!");
+	} catch (error) {
+		console.error("❌ Gatsby Node 실행 중 오류 발생:", error);
+	}
 };

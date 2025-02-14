@@ -46,26 +46,7 @@ const IndexPage = () => {
   });
   return (
     <Wrapper>
-      {/*<audio autoPlay loop>*/}
-      {/*  <source src={Song} />*/}
-      {/*</audio>*/}
-      <Title />
-      <Greeting />
-      <Gallery />
-      <Location />
-      <Quote />
-      <CongratulatoryMoney />
-      <Share />
-      <Footer
-        style={{
-          background: "#D7CCC8",
-          backgroundImage: `url(${GroovePaper})`,
-          opacity: 0.6,
-          textAlign: "center",
-        }}
-      >
-        Copyright © 2022 Shin Jooyoung
-      </Footer>
+        <div> Hi~~</div>
     </Wrapper>
   );
 };

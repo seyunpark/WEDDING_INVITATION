@@ -49,13 +49,13 @@ const Schedule = styled.p`
   opacity: 0.65;
   margin-bottom: 24px;
 `;
-const Title = () => {
+const Title = ({ invitation }) => {
   return (
     <Layout>
       <TitleWrapper>
         <WeddingInvitation>WEDDING INVITATION</WeddingInvitation>
         <GroomBride>
-          {GROOM_NAME} &#38; {BRIDE_NAME}
+          {invitation.groom?.name} &#38; {invitation.bride?.name}
         </GroomBride>
         <Schedule>
           {WEDDING_DATE}
@@ -63,9 +63,9 @@ const Title = () => {
           {WEDDING_LOCATION}
         </Schedule>
       </TitleWrapper>
-      <VideoBackground autoPlay loop muted playsInline={true}>
-        <source src={BackgroundVideo} type="video/mp4" />
-      </VideoBackground>
+      {/*<VideoBackground autoPlay loop muted playsInline={true}>*/}
+      {/*  <source src={BackgroundVideo} type="video/mp4" />*/}
+      {/*</VideoBackground>*/}
     </Layout>
   );
 };

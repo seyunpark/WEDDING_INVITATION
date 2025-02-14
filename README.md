@@ -1,12 +1,3 @@
-# 모바일 청첩장 React.js 템플릿
-
-결혼식 초대를 위한 청첩장 템플릿입니다.  
-이 저장소가 마음에 들거나 사용하게 되신다면, Star와 Fork 부탁드리겠습니다😉
-
-## 👰🏻‍♀️ 미리 보기
-
-https://wedding-templete.netlify.app/
-
 ## 📚 내용 및 기능
 
 - 결혼식 날짜, 위치, 인사말 출력
@@ -32,32 +23,6 @@ Netlify로 만드신다면 아래 글을 참고하세요 🕵🏻‍♂️
 
 ## 🛠 커스터마이징
 
-`./config.js`를 수정하여 사용합니다.
-
-```javascript
-export const WEDDING_INVITATION_URL = "http://localhost:8000/";
-export const KAKAOTALK_API_TOKEN = "JavaScript 키 입력";
-export const KAKAOTALK_SHARE_IMAGE =
-  "https://cdn.pixabay.com/photo/2014/11/13/17/04/heart-529607_960_720.jpg";
-
-export const WEDDING_DATE = "1970년 01월 01일, 목요일 오전 12시 00분";
-export const WEDDING_LOCATION = "○○○웨딩, ○층 ○○홀";
-
-export const GROOM_NAME = "○○○";
-export const GROOM_ACCOUNT_NUMBER = "○○은행 ***-***-******";
-export const GROOM_FATHER_NAME = "○○○";
-export const GROOM_FATHER_ACCOUNT_NUMBER = "○○은행 ***-***-******";
-export const GROOM_MOTHER_NAME = "○○○";
-export const GROOM_MOTHER_ACCOUNT_NUMBER = "○○은행 ***-***-******";
-
-export const BRIDE_NAME = "○○○";
-export const BRIDE_ACCOUNT_NUMBER = "○○은행 ***-***-******";
-export const BRIDE_FATHER_NAME = "○○○";
-export const BRIDE_FATHER_ACCOUNT_NUMBER = "○○은행 ***-***-******";
-export const BRIDE_MOTHER_NAME = "○○○";
-export const BRIDE_MOTHER_ACCOUNT_NUMBER = "○○은행 ***-***-******";
-```
-
 `./src/components/location.jsx`를 수정하여 원하는 위치의 카카오 지도를 사용합니다.
 
 ```javascript
@@ -77,4 +42,53 @@ const executeScript = () => {
   scriptTag.appendChild(inlineScript);
   document.body.appendChild(scriptTag);
 };
+```
+
+## db 구성 방법
+
+mysql을 사용합니다.
+
+* 사용버전 mysql 8.0
+
+
+* init 과정
+```
+mysql -u root -p
+
+CREATE DATABASE wedding_db;
+USE wedding_db;
+
+CREATE TABLE invitations (
+    id VARCHAR(50) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    date VARCHAR(100) NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    groom_name VARCHAR(100) NOT NULL,
+    groom_account VARCHAR(100) NOT NULL,
+    groom_father_name VARCHAR(100),
+    groom_father_account VARCHAR(100),
+    groom_mother_name VARCHAR(100),
+    groom_mother_account VARCHAR(100),
+    bride_name VARCHAR(100) NOT NULL,
+    bride_account VARCHAR(100) NOT NULL,
+    bride_father_name VARCHAR(100),
+    bride_father_account VARCHAR(100),
+    bride_mother_name VARCHAR(100),
+    bride_mother_account VARCHAR(100)
+);
+
+```
+
+* 데이터 삽입
+```
+INSERT INTO invitations VALUES 
+('abc123', '홍길동', '2025년 05월 01일, 목요일 오전 11시 00분', '서울 강남구 ○○○웨딩홀 3층',
+ '김철수', '○○은행 123-456-789', '김영수', '○○은행 987-654-321', '이순자', '○○은행 654-321-987',
+ '박지영', '○○은행 222-333-444', '박민수', '○○은행 111-222-333', '조경희', '○○은행 555-666-777');
+
+INSERT INTO invitations VALUES 
+('xyz789', '김영희', '2025년 06월 10일, 금요일 오후 3시 30분', '부산 해운대 ○○○웨딩홀 5층',
+ '이준호', '○○은행 444-555-666', '이상훈', '○○은행 777-888-999', '최미경', '○○은행 000-111-222',
+ '최윤아', '○○은행 999-888-777', '최영수', '○○은행 666-555-444', '윤경희', '○○은행 333-222-111');
+
 ```
